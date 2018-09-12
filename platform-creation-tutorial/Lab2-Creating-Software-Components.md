@@ -3,247 +3,247 @@
 <table style="width:100%">
   <tr>
 
-<th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>SDSoC Platform Creation Labs</h2>
+<th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>演習: SDSoC プラットフォームの作成</h2>
 </th>
 
   </tr>
   <tr>
-    <td width="17%" align="center"><a href="README.md">Introduction</a></td>
-    <td width="16%" align="center"><a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">Lab1: Creating the DSA for a Zynq-7000 SoC Processor Design</a></td>
-    <td width="17%" align="center">Lab 2: Creating Software Components for the Platform</td>
-    <td width="17%" align="center"><a href="Lab3-Creating-Custom-Platform-Using-the-SDx-IDE.md">Lab 3: Creating a Custom Platform Using the SDx IDE</a></td>
+    <td width="17%" align="center"><a href="README.md">概要</a></td>
+    <td width="16%" align="center"><a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">演習1: Zynq-7000 SoC プロセッサ デザイン用の DSA の作成</a></td>
+    <td width="17%" align="center">演習 2: プラットフォーム用ソフトウェア コンポーネントの作成</td>
+    <td width="17%" align="center"><a href="Lab3-Creating-Custom-Platform-Using-the-SDx-IDE.md">演習 3: SDx IDE を使用したカスタム プラットフォームの作成</a></td>
   </tr>
 </table>
 </div>
 
 
-## Lab 2: Creating Software Components for the Platform  
-In this lab, we will create the files used to define the software components of an SDSoC&trade; platform for a standalone target. The software components created are:
+## 演習 2: プラットフォーム用ソフトウェア コンポーネントの作成  
+この演習では、スタンドアロン ターゲット用に SDSoC&trade; プラッフォーム ターゲットのソフトウェア コンポーネントを定義するのに使用するファイルを作成します。作成するソフトウェア コンポーネントは、次のとおりです。
 
--  **First Stage Boot Loader (FSBL)**:  The FSBL initializes the PS block, configures the PL with a bitstream if needed, and loads either a second stage bootloader or the end application as specified in the boot file
+- **FSBL (第 1 段階ブートローダー)**: FSBL は PS ブロックを初期化し、必要であればビットストリームを使用して PL をコンフィギュレーションし、第 2 段階ブートローダーまたはブート ファイルで指定したエンド アプリケーションのいずれかを読み込みます。
 
-- **Linker Script**: The linker script specifies the memory address space used for the code and data regions present within the executable software application file. The executable file is formatted in the executable and linkable format (ELF). The stack and heap sizes are also specified within the linker script
+- **リンカー スクリプト**: リンカー スクリプトは実行可能なソフトウェア アプリケーション ファイル内のコードおよびデータ領域に使用するメモリ アドレス空間を指定します。実行可能ファイルは、ELF (Executable and Linkable Format) にフォーマットされます。スタックおよびヒープ サイズもリンカー スクリプト内で指定します。
 
-- **Boot Image Format (BIF) File**: The BIF file specifies how the Zynq&reg;-7000 SoC boot file (BOOT.BIN) is constructed. The boot file contains the FSBL and the executable application ELF file. It can also contain a bitstream as well as additional program and data files.
+- **ブート イメージ フォーマット (BIF) ファイル**: BIF ファイルは、Zynq&reg;-7000 SoC ブート ファイル (BOOT.BIN) の構築方法を指定します。ブート ファイルには、FSBL と実行可能アプリケーション ELF ファイルが含まれます。また、ビットストリームだけでなく、追加プログラムおよびデータ ファイルも含まれます。
 
->:pushpin: **NOTE**
->For more information on creating a boot image, see Zynq-7000 SoC Software Developers Guide ([UG821](https://www.xilinx.com/support/documentation/user_guides/ug821-zynq-7000-swdev.pdf)).
+>:pushpin: **注記:**
+>ブート イメージの作成に関する詳細は、『Zynq-7000 SoC ソフトウェア開発者向けガイド』 ([UG821](https://japan.xilinx.com/support/documentation/user_guides/j_ug821-zynq-7000-swdev.pdf)) を参照してください。
 
 <details>
-<summary><big><strong>Step 1: Launching the SDx&trade; IDE and Creating an Application Project</strong></big></summary>
+<summary><big><strong>手順 1: SDx&trade; IDE の起動とアプリケーション プロジェクトの作成</strong></big></summary>
 
 
-#### On a Linux host machine:
+#### Linux ホスト マシン
 
-At the shell prompt, type the following commands:
+シェル プロンプトに次のコマンドを入力します。
    
    1. `source <Xilinx_Install_Directory>/SDx/<Version>/settings64.{sh,csh}`
    2. `sdx`
     
-The first command sets the environment variables before launching the SDx IDE and the second command launches the SDX IDE. 
+1 つ目のコマンドで SDx を起動する前に環境変数を設定し、2 つ目のコマンドで SDx IDE を起動しています。 
 
-#### On a Windows host machine:
+#### Windows ホスト マシン
 
-For a Windows host machine, use one of the following methods to launch Vivado&reg;
+Windows ホスト マシンの場合は、次のいずれかの方法で Vivado&reg; を起動します。
 
-   - Click the Vivado desktop icon
+   - Vivado デスクトップ アイコンをクリックします。
 
-   - From the Start menu, select Xilinx Design Tools \> Vivado 2018.2 \> Vivado 2018.2
+   - [スタート] メニューから [Xilinx Design Tools] → [Vivado 2018.2] → [Vivado 2018.2] をクリックします。
 
-   - From a Command prompt window, type the following commands:
+   - コマンド プロンプト ウィンドウで次のコマンドを入力します。
    
       1. `<Xilinx_Install_Directory>/SDx/<Version>/settings64.bat`
       2. `sdx`
     
-     The first command sets the environment variables before launching the SDx IDE and the second command launches the SDX IDE. 
+     1 つ目のコマンドで SDx を起動する前に環境変数を設定し、2 つ目のコマンドで SDx IDE を起動しています。 
 
-After the SDx IDE opens, you will be prompted to set a directory location for an SDx workspace. The SDx workspace will contain the platform and application projects we will develop.
+SDx IDE が開いたら、SDx ワークスペースのディレクトリを設定する画面になります。SDx ワークスペースには、これから開発するプラットフォームとアプリケーション プロジェクトが含まれるようになります。
 
-1. For this lab enter **/tmp/sdx\_workspace** for the Workspace as shown in the figure below.
+1. この演習では、次の図のように「**/tmp/sdx\_workspace**」と指定します。
 
    ![](./images/image46.png)
 
-1. Click **OK**.
+1. [OK] をクリックします。
 
-1. In the SDx IDE Welcome screen, select **Create SDx Project**.
+1. SDx IDE の [Welcome] 画面で [Create SDx Project] をクリックします。
 
-   As an alternative, the SDx IDE menu selection **File \> New \> SDx Project** can be used.
+   または、SDx IDE メニュー から [File] → [New] → [SDx Project] をクリックします。
 
    ![](./images/image47.png)
 
-1. Select **Application** on the Project Type dialog.
+1. [Project Type] ページで [Application] をオンにします。
 
    ![](./images/image48.png)
 
-   We will first create the software application components necessary for the SDSoC platform and then in a later lab we will create a Platform project to utilize this software.
+   まず、SDSoC プラットフォームに必要なソフトウェア アプリケーション コンポーネントを作成してから、演習後半でこのソフトウェアで使用するプラットフォーム プロジェクトを作成します。
 
-1. Click **Next**.
+1. [Next] をクリックします。
 
 </details>
 
 <details>
-<summary><big><strong>Step 2: Creating an FSBL Application</strong></big></summary>
+<summary><big><strong>手順 2: FSBL アプリケーションの作成</strong></big></summary>
 
 
-1. In the Create a New SDx Project dialog, type **fsbl** as the Project name.
+1. [Create a New SDx Project] ページでプロジェクトの名前に **fsbl** と入力します。
 
     ![](./images/image49.png)
 
-1. Click **Next**.
+1. [Next] をクリックします。
 
-1. On the Platform dialog, select **Hardware specification (DSA/HDF)**.
+1. [Platform] ページで [Hardware specification (DSA/HDF)] をオンにします。
 
     ![](./images/image50.png)
 
-1. Click **Add New DSA/HDF…**.
+1. [Add New DSA/HDF] をクリックします。
 
-1. In the Add New DSA/HDF dialog, navigate to the HDF exported in Lab 1.
+1. [Add New DSA/HDF] ダイアログ ボックスで演習 1 でエクスポートした HDF ファイルを指定します。
 
     ![](./images/image51.png)
 
-1. Select **/tmp/zynq7\_board/zynq7\_board.sdk/zynq7\_board\_wrapper.hdf**.
+1. **/tmp/zynq7\_board/zynq7\_board.sdk/zynq7\_board\_wrapper.hdf** を選択します。
 
-1. Click **OK**.
+1. [OK] をクリックします。
 
-   A new platform name is added to the Platform selection dialog choices
+   新しいプラットフォーム名がダイアログ ボックスに追加されます。
 
-1. Select the **zynq7\_board\_wrapper** of type HDF.
+1. タイプが HDF の **zynq7\_board\_wrapper** を選択します。
 
-1. Click **Next** to read in this hardware specification file.
+1. [Next] をクリックしてこのハードウェア仕様ファイルを読み込みます。
 
    ![](./images/image52.png)
 
-1. In the System configuration dialog, retain the following default settings and click **Next**.
+1. [System configuration] ページはデフォルトの設定のままにして [Next] をクリックします。
 
-   - OS Platform: **standalone**
+   - \[OS Platform]: **standalone**
 
-   - Processor: **ps7\_cortexa9\_0**
+   - \[Processor]: **ps7\_cortexa9\_0**
 
-   - Language: **C**
+   - \[Language]: **C**
 
    ![](./images/image53.png)
 
-1. In the Templates dialog, select **Zynq FSBL** and click **Finish**.
+1. [Templates] ページで [Zynq FSBL] を選択し、[Finish] をクリックします。
 
     ![](./images/image54.png)
 
-   A Zynq-7000 SoC FSBL application is created as seen in the SDx IDE shown below.
+   次の図に示すように、Zynq-7000 SoC FSBL アプリケーションが作成されます。
 
     ![](./images/image55.png)
 
-8. In the **Assistant** view, expand **fsbl [Application]**. The **Assistant** view appears in the bottom left corner below the **Project Explorer** view in the SDx IDE.
+8. [Assistant] ビューで **fsbl [Application]** を展開します。[Assistant] ビューは SDx IDE の [Project Explorer] ビューの下に表示されます。
 
    ![](./images/image56.png)
 
 <a name="buildfsbl"></a>
   
-9. Right-click on **Debug** and select **Build**.
+9. [Debug] を右クリックして [Build] をクリックします。
 
-   The SDx Console window shows the FSBL compilation steps and the size of the resulting **fsbl.elf** executable software file.
+   SDx の [Console] ビューに FSBL コンパイル段階と、作成された **fsbl.elf** 実行可能ソフトウェア ファイルの容量が表示されます。
 
     ![](./images/image57.png)
 </details>
 <details>
-    <summary><big><strong>Step 3: Creating a “Hello World” Software Application with an updated Linker Script</strong></big></summary>
+    <summary><big><strong>手順 3: アップデートしたリンカースクリプトを使用して Hello World ソフトウェア アプリケーションを作成</strong></big></summary>
 
 
-The “Hello World” application serves as a baseline of basic hardware and software functionality to observe that our design and board are functional prior to creating an SDSoC platform and any hardware accelerated functions. The Zynq-family boot process consists of a first stage bootloader that loads either the application software, in this case our hello\_world code, or a second stage bootloader such as U-Boot. Next, the FSBL configures the PL with a bitstream and then loads the application code into memory as defined by the application’s linker script. Program control is then passed to the application code.
+Hello World アプリケーションを基本的なハードウェアおよびソフトウェアの機能の基盤として使用し、SDSoC プラットフォームおよびハードウェア アクセラレーションされた関数を作成する前にデザインとボードの動作を確認します。Zynq ファミリのブート プロセスには、アプリケーション ソフトウェア (この場合は hello\_world コード) か U-Boot などの第 2 段階ブートローダーのいずれかを読み込む第 1 段階ブートローダー (FSBL) が含まれます。次に FSBL がビットストリームを使用して PL をコンフィギュレーションし、アプリケーションのリンカー スクリプトで定義したとおりにアプリケーション コードをメモリに読み込みます。これで、プログラム制御がアプリケーション コードに渡されます。
 
-1. Select **File > New > SDx Project** on the SDx IDE menubar to create a new application.
+1. SDx IDE メニュー バーで [File] → [New] → [SDx Project] をクリックして、新しいアプリケーションを作成します。
 
-2. Select **Application** on the Project Type dialog.
+2. [Project Type] ページで [Application] をクリックします。
 
-3. Type **hello_world** in the Project name field in the Create a New SDx Project dialog and click **Next**.
+3. [Create a New SDx Project] ダイアログ ボックスの [Project name] フィールドに「hello_world」と入力して、[Next] をクリックします。
 
     ![](./images/image58.png)
 
-4. In the Platform dialog, click Platform and select the `zynq7_board_wrapper_1[custom]` platform.
+4. [Platform] ページで [Platform] をオンにして `zynq7_board_wrapper_1[custom]` プラットフォームを選択します。
 
 
    ![](./images/image59.png)
 
-5. Click **Next**.
+5. [Next] をクリックします。
 
-6. On the System configuration dialog, retain the following default settings and click **Next**.
+6. \[System configuration] ページは次のようにデフォルトの設定のままにして [Next] をクリックします。
 
-   - System configuration: **systemconfig**
+   - \[System configuration]: **systemconfig**
 
-   - Runtime: **C/C++**
+   - \[Runtime]: **C/C++**
 
-   - Domain: **standalone\_domain**
+   - \[Domain]: **standalone\_domain**
 
-   - CPU: **ps7_cortexa9_0**
+   - \[CPU]: **ps7_cortexa9_0**
 
-   - OS: **standalone**
+   - \[OS]: **standalone**
 
-   - Output type: **Executable (elf)**
+   - \[Output type]: **Executable (elf)**
 
-   - Language: **C**
+   - \[Language]: **C**
 
    ![](./images/image60.png)
 
-7. Select the **Hello World** application template in the Templates dialog box.
+7. [Templates] ページで [Hello World] アプリケーション テンプレートを選択します。
 
    ![](./images/image61.png)
 
-8. Click **Finish**.
-   An SDK application project is be created.
+8. [Finish] をクリックします。
+   SDx アプリケーション プロジェクトが作成されます。
 
-9. In the Assistant view, right-click hello_world [Application] and select **Generate Linker Script**.
+9. [Assistant] ビューで `hello_world [Application]` を右クリックして、[Generate Linker Script] をクリックします。
 
     ![](./images/image62.png)
 
-8. On the Generate linker script dialog, go to the **Basic** tab on the right and change the Heap and Stack sizes. The default values are too small for a typical SDx application that uses the heap for input and output data buffers.
+8. [Generate linker script] ページの右側の [Basic] タブで [Heap Size] と [Stack Size] を変更します。デフォルト値のままでは入力および出力データ バッファーのヒープを使用する典型的な SDx アプリケーションには小さすぎます。
 
-   >:pushpin: **NOTE:**
-   >Commas and other formatting is not accepted when entering values into the Generate linker script dialog.
+   >:pushpin: **注記:**
+   >[Generate linker script] ページの値には、コンマおよびその他のフォーマットが使用できません。
 
-   1. Set Heap Size to **805306368**.
-      This is 768 MB.
+   1. [Heap Size] を **805306368** に設定します。
+      これは 768 MB です。
 
-   1. Set Stack Size to **262144**.
-      This is 256 KB.
+   1. [Stack Size] を **262144** に設定します。
+      これは 256 KB です。
 
     ![](./images/image63.png)
 
-9. Click **Generate**.
+9. [Generate] をクリックします。
 
-10. Click **Yes** to overwrite existing linker script.
+10. [Yes] をクリックして既存のリンカー スクリプトを上書きします。
 
-9.  In the Assistant view, expand `hello_world [Application]`
+9.  [Assistant] ビューで `hello_world [Application]` を展開します。
 
     ![](./images/image64.png)
 
-10. Right-click **Debug** and select **Build**.
+10. [Debug] を右クリックして [Build] をクリックします。
 
-The SDx Console window shows the hello\_world compilation steps and the size of the resulting **hello\_world.elf** executable software file.
+SDx の [Console] ウィンドウに hello\_world コンパイル段階と、作成された **hello\_world.elf** 実行可能ソフトウェア ファイルの容量が表示されます。
 
 ![](./images/image65.png)
 </details>
 
   <details>
-    <summary><big><strong>Step 4: Generating the Boot Image</strong></big></summary>
+    <summary><big><strong>手順 4: ブート イメージの生成</strong></big></summary>
 
-We now have a set of hardware and software components that we can use to boot a Zynq-7000 SoC system. The SDx IDE provides the ability to create the boot image and its associated boot image file (BIF) that defines the boot image components. The order of partitions listed in the BIF is important. The generated **BOOT.bin** file located in the **hello_world/_sdx/bootimage** directory can be placed onto a FAT32 formatted SD card and used to boot the ZC702 with the “Hello World” text string output to the UART and the PL configured with a bitstream.
+ここまでで、Zynq-7000 SoC を起動するのに使用できるハードウェアおよびソフトウェア コンポーネントのセットができました。SDx IDE には、ブート イメージおよびそのブート イメージ コンポーネントを定義するブート イメージ ファイル (BIF) を作成する機能があります。BIF にリストされるパーティションの順序は重要です。**hello_world/_sdx/bootimage** ディレクトリに生成された **BOOT.bin** ファイルは FAT32 フォーマットの SD カードに含めて、ZC702 を起動するのに使用できます。UART に Hello World というテキスト文字列が出力され、ビットストリームで PL がコンフィギュレーションされます。
 
-1.  In the Assistant view, right-click `hello_world [Application]`and select **Create Boot Image**.
+1.  [Assistant] ビューで `hello_world [Application]` を右クリックして、[Create Boot Image] をクリックします。
 
     ![](./images/image66.png)
 
-2.  On the Create Boot Image dialog box accept the following defaults.
+2.  [Create Boot Image] ダイアログ ボックスはデフォルトのままにします。
 
-    >:pushpin: **NOTE**
-    > Before clicking the Create Image button, make sure that the Boot image partitions are in the order shown below. You may need to select the bitstream partition and click the Up button in order to match the order shown below.
+    >:pushpin: **注記:**
+    > [Create Image] ボタンをクリックする前に、ブート イメージのパーティションが次の順番になるようにしてください。順番を次の図と同じにするには、ビットストリーム パーティションを選択して、[Up] ボタンをクリックして順番を調整する必要があることもあります。
 
-    1. Select the **Zynq** architecture.
+    1. [Zynq] アーキテクチャを選択します。
 
-    2. Select **Create new BIF file**.
+    2. [Create new BIF file] をオンにします。
 
-    3. Provide the Output BIF file path. For example, ``/tmp/sdx_workspace/hello_world/_sdx/bootimage/hello_world.bif``
+    3. [Output BIF file path] を指定します。たとえば、``/tmp/sdx_workspace/hello_world/_sdx/bootimage/hello_world.bif`` のように指定します。
 
-    4. Provide the Output path. For example, ``/tmp/sdx_workspace/hello_world/_sdx/bootimage/BOOT.bin``
+    4. [Output path] を指定します。たとえば、``/tmp/sdx_workspace/hello_world/_sdx/bootimage/BOOT.bin`` のように指定します。
 
-    5. Add boot image partitions in the following sequence:
+    5. ブート イメージ パーティションを次の順番で追加します。
 
        1. `/tmp/sdx_workspace/zynq7_board_wrapper_1/export/zynq7_board_wrapper_1/sw/systemconfig/boot/fsbl.elf`
 
@@ -253,90 +253,90 @@ We now have a set of hardware and software components that we can use to boot a 
 
       ![](./images/image67.png)
 
-      >:pushpin:**NOTE:**
-      >If an fsbl.elf is not present by default in the boot image partitions list above, you can use the FSBL that was built in [Step 2](#buildfsbl)  (/tmp/sdx_workspace/fsbl/Debug/fsbl.elf) by adding it to the partition list. To replace a partition, select it and click **Delete**. Click **Add** and browse to new file for the partition list. Use the **Up**/**Down** buttons for setting order.
+      >:pushpin: **注記:**
+      >上記のブート イメージ パーティションのリストに fsbl.elf がデフォルトで含まれない場合は、[手順 2](#buildfsbl)  (/tmp/sdx_workspace/fsbl/Debug/fsbl.elf) でビルドした FSBL をパーティション リストに追加して使用できます。パーティションを変更するには、まずそれを選択して [Delete] をクリックします。[Add] をクリックして、パーティション リストに追加する新しいファイルを指定します。順序は [Up]/[Down] ボタンで並べ替えます。
       
-    6. Click **Create Image**.
+    6. [Create Image] をクリックします。
     
-       The boot image and its associated boot image file (BIF) that defines the boot image components is created.
+       ブート イメージおよびそのブート イメージ コンポーネントを定義するブート イメージ ファイル (BIF) が作成されます。
 
 </details>
 <details>
-<summary><big><strong>Step 5: Booting the ZC702 with the generated Boot Image (BOOT.bin)</strong></big></summary>
+<summary><big><strong>手順 5: 生成したブート イメージ (BOOT.bin) を使用して ZC702 を起動</strong></big></summary>
 
 
-1. Copy the `BOOT.bin` file from `/tmp/sdx_workspace/hello_world/_sdx/bootimage/BOOT.bin` to the root directory of a FAT32 format SD card inserted on the host machine.
+1. `/tmp/sdx_workspace/hello_world/_sdx/bootimage/BOOT.bin` の `BOOT.bin` ファイルをホスト マシンではなく、FAT32 フォーマットの SD カードにコピーします。
 
-2. Safely eject or unmount the SD card.
+2. SD カードを安全に取り出すか、アンマウントします。
 
-3. Power off the ZC702 (SW11) board.
+3. ZC702 (SW11) ボードの電源をオフにします。
 
-4. Insert the SD card, with `BOOT.bin` at root directory, into ZC702 metallic SD card holder (J64).
+4. ルート ディレクトリに `BOOT.bin` を含む SD カードを、ZC702 の金属の SD カード ホルダー (J64) に挿入します。
 
-5. Ensure that the ZC702 boot mode DIP switch (SW16) is set for SD card boot. The following is a list of the recommended DIP switch position settings:
+5. ZC702 ブート モードの DIP スイッチ (SW16) は SD カード ブート用に設定します。次は、推奨される DIP スイッチ位置設定のリストです。
 
-   - 1 - Away from number 1 printed on switch.
+   - 1 - スイッチに印刷された番号 1 から離れた方
 
-   - 2 - Away from number 2 printed on switch.
+   - 2 - スイッチに印刷された番号 2 から離れた方
 
-   - 3 - Towards the number 3 printed on switch.
+   - 3 - スイッチに印刷された番号 3 に向かう方
 
-   - 4 - Towards the number 4 printed on switch.
+   - 4 - スイッチに印刷された番号 4 に向かう方
 
-   - 5 - Away from number 5 printed on switch.
+   - 5 - スイッチに印刷された番号 5 から離れた方
 
-6.  Plug the mini-USB cable end into the ZC702 USB-UART connector (J17).
+6.  mini-USB ケーブルを ZC702 USB-UART コネクタ (J17) にプラグします。
 
-7.  Plug the other end of the USB Host Type A connector into the USB port of the host machine.
+7.  反対側の USB Host Type A コネクタをホスト マシンの USB ポートにプラグします。
 
-8.  Power-up the ZC702 (SW11) board.
+8.  ZC702 (SW11) ボードの電源を入れます。
 
-9.  On the host machine run a terminal program, such as TeraTerm, using the COM port associated with the Silicon Labs CP210x USB-to-UART device that is on the ZC702.
+9.  ZC702 の Silicon Labs CP210x USB-to-UART デバイスに接続された COM ポートを使用して、ホスト マシンで TeraTerm などのターミナル プログラムを実行します。
 
-    1. Ensure Silicon Labs CP210x VCP drivers are already loaded on the Host machine.
+    1. Silicon Labs CP210x VCP ドライバーは既にホスト マシンにロード済みであることを確認します。
 
-    2. Connect to the COM port containing “Silicon Labs CP210x USB to UART Bridge” identifier.
+    2. Silicon Labs CP210x USB to UART Bridge を含む COM ポートに接続します。
 
-       The ZC702 needs board power applied to activate the COM port.
+       ZC702 では COM ポートをアクティベートするのにボード電源が必要です。
 
-    3. Serial port settings are 115200 baud, 8-N-1, no hardware flow control.
+    3. シリアル ポートの設定は、115200、8-N-1、ハードウェア フロー制御なしにします。
 
-10.  Once the terminal program is connected to the COM port, reboot using one of the following methods.
+10.  ターミナル プログラムが COM ポートに接続されたら、次のいずれかの方法でリブートします。
 
-     - Push the POR\_B pushbutton (SW1) or
+     - POR\_B pushbutton (SW1) を押す
 
-     - Power cycle (SW11) the ZC702
+     - ZC702 をパワー サイクル (SW11)
 
-11. After the ZC702 board is successfully configured with a bitstream, the DONE LED (DS3) turns green.
+11. ZC702 がビットストリームで問題なくコンフィギュレーションされたら、DONE LED (DS3) が緑になります。
 
-    This usually takes up to 30 seconds.
+    これには、通常最大で 30 秒ほどかかります。
 
-12. The text Hello World appears on the terminal window after a successful boot.
+12. 問題なくブートされたら、ターミナル ウィンドウに Hello World というテキストが表示されます。
 
     ![](./images/image68.png)
 
 </details>
     <details>
-    <summary><big><strong>Step 6: Preparing a Staging Area for Platform Creation</strong></big></summary>
+    <summary><big><strong>手順 6: プラットフォーム作成のためのディレクトリを準備</strong></big></summary>
 
 
-We now have all the components necessary to create a standalone SDSoC platform that targets a ZC702. In preparation for providing input files to the SDx IDE’s platform creation dialogs we create a directory that serves as a staging area. The name or location of the directory is user selectable. We will create the staging area in our SDx workspace directory. Below is a description of the steps we perform to populate the staging area, followed by the Linux commands used to complete the described actions.
+ここまでで、ZC702 をターゲットにするスタンドアロン SDSoC プラットフォームを作成するのに必要なコンポーネントがすべて揃いました。SDx IDE のプラットフォーム作成のダイアログ ボックスで指定する入力ファイルを準備するためのディレクトリを作っておきます。ディレクトリの名前および位置はユーザーが選択できます。SDx ワークスペース ディレクトリに準備ディレクトリを作成します。次は、準備ディレクトリの生成する手順と、詳細な動作を終了するための Linux コマンドを示しています。
 
-1.  Change directory to the location of the SDx workspace.
+1.  ディレクトリを SDx ワークスペースのディレクトリに変更します。
 
-2.  Copy the DSA created in Lab 1 into the SDx workspace.
+2.  演習 1 で作成した DSA を SDx ワークスペースにコピーします。
 
-3.  Create the boot directory in the SDx workspace.
+3.  SDx ワークスペースにブート ディレクトリを作成します。
 
-4.  Change directory to boot.
+4.  ディレクトリをブートに変更します。
 
-5.  Copy the FSBL ELF file into the boot directory.
+5.  FSBL ELF ファイルをブート ディレクトリにコピーします。
 
-6.  Copy the `hello_world` linker script into the boot directory.
+6.  `hello_world` リンカー スクリプトをブート ディレクトリにコピーします。
 
-7.  Copy the `hello_world` BIF file into the boot directory.
+7.  `hello_world` BIF ファイルをブート ディレクトリにコピーします。
 
-8.  Copy the `hello_world` BOOT.bin file into the boot directory.
+8.  `hello_world` BOOT.bin ファイルをブート ディレクトリにコピーします。
     ```
     cd /tmp/sdx_workspace
     cp /tmp/zynq7_board/zynq7_board.dsa .
@@ -347,18 +347,18 @@ We now have all the components necessary to create a standalone SDSoC platform t
     cp /tmp/sdx_workspace/hello_world/_sdx/bootimage/hello_world.bif .
     cp /tmp/sdx_workspace/hello_world/_sdx/bootimage/BOOT.bin .
     ```
-9.  Copy the `hello_world.bif` file to a file named **platform.bif**
+9.  `hello_world.bif` ファイルを **platform.bif** という名前のファイルにコピーします。
 
-10. Edit the **platform.bif** file.
+10. **platform.bif** ファイルを編集します。
 
     ![](./images/image69.png)
 
-An SDSoC boot image format file looks similar to a standard BIF file, with tokens specified in angle brackets (< >) rather than direct paths to boot files. The BIF tokens are replaced at SDSoC compile time with actual file names and generated content. This is done since the bitstream file for the PL region will be procedurally generated in the course of running the SDx tools and also because some of the elements listed in the BIF file do not have known file names at the time the BIF file is created.
+SDSoC ブート イメージ フォーマット ファイルは標準 BIF ファイルと類似していますが、ブート ファイルへのパスには直接パスではなく、かっこ (< >) で指定されたトークンが使用されます。BIF トークンは、SDSoC コンパイル時に実際のファイル名と生成された内容に置き換わります。これは、PL 領域のビットストリーム ファイルが SDx ツールで実行されると手続き型で生成され、BIF ファイルにリストされるエレメントのファイル名の中に BIF ファイルの生成時にはわかっていないものがあるためです。
 </details>
 
-### Conclusion
+### まとめ
 
-In completing Lab 2, you used the exported hardware design from the Vivado Design Suite in Lab 1 and brought it into the SDx environment. Using the SDx IDE, you created an FSBL software application and a hello\_world software application. The linker script for the hello\_world application was updated to reflect the resources needed for the SDx environment. These applications were then used to create a boot image (BOOT.bin). By writing the boot image to an SD card and using it to boot a ZC702 board, you validated the application on hardware. A staging area directory was then created and you moved the relevant files into the staging area in preparation for Lab 3.
+演習 2 では、演習 1 の Vivado Design Suite でエクスポートしたハードウェア デザインを使用して、SDx 環境に読み込みました。SDx IDE を使用して FSBL ソフトウェア アプリケーションと hello\_world ソフトウェア アプリケーションを作成しました。hello\_world アプリケーションのリンカー スクリプトを SDx 環境に必要なリソースを反映させるためにアップデートしました。この後、これらのアプリケーションを使用してブート イメージ (BOOT.bin) を作成しました。ブート イメージを SD カードに書き込んで、ZC702 ボードを起動するのに使用して、ハードウェア上でアプリケーションを検証しました。準備ディレクトリを作成して、演習 3 用に関連ファイルを移動しました。
 
 <hr/>
 <p align="center"><sup>Copyright&copy; 2018 Xilinx</sup></p>

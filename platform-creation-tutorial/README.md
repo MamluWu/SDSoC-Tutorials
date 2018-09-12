@@ -4,91 +4,91 @@
 <table style="width:100%">
   <tr>
 
-<th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>SDSoC Platform Creation Labs</h2>
+<th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>演習: SDSoC プラットフォームの作成</h2>
 </th>
 
   </tr>
   <tr>
-    <td width="17%" align="center">Introduction</a></td>
-    <td width="16%" align="center"><a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">Lab1: Creating the DSA for a Zynq-7000 SoC Processor Design</a></td>
-    <td width="17%" align="center"><a href="Lab2-Creating-Software-Components.md">Lab 2: Creating Software Components for the Platform</a></td>
-    <td width="17%" align="center"><a href="Lab3-Creating-Custom-Platform-Using-the-SDx-IDE.md">Lab 3: Creating a Custom Platform Using the SDx IDE</a></td>
+    <td width="17%" align="center">概要</a></td>
+    <td width="16%" align="center"><a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">演習1: Zynq-7000 SoC プロセッサ デザイン用の DSA の作成</a></td>
+    <td width="17%" align="center"><a href="Lab2-Creating-Software-Components.md">演習 2: プラットフォーム用ソフトウェア コンポーネントの作成</a></td>
+    <td width="17%" align="center"><a href="Lab3-Creating-Custom-Platform-Using-the-SDx-IDE.md">演習 3: SDx IDE を使用したカスタム プラットフォームの作成</a></td>
   </tr>
 </table>
 </div>
 
-## Introduction
+## 概要
 
-The SDSoC&trade; development environment provides the tools necessary for implementing heterogeneous embedded systems using the Zynq&reg;-7000 SoC or the Zynq UltraScale+&trade; MPSoC devices. 
+SDSoC&trade; 開発環境は、Zynq&reg;-7000 SoC または Zynq UltraScale+&trade; MPSoC デバイスを使用してヘテロジニアス エンベデッド システムをインプリメントするのに必要なツールです。 
 
-This tutorial shows how to create an SDSoC platform on which an example SDSoC application is created and run. The Vivado&reg; Design Suite is used to create the hardware platform and the SDx&trade; Integrated Design Environment (IDE) is used to build the software platform including an SDSoC application.
+このチュートリアルでは、SDSoC プラットフォームの作成方法を説明し、そのプラットフォーム上で SDSoC アプリケーション例を作成して実行します。ハードウェア プラットフォームの作成には Vivado&reg; Design Suite を、SDSoC アプリケーションを含むソフトウェア プラットフォームの作成には SDx&trade; 統合環境 (IDE) を使用します。
 
-The concept of a platform is integral to the SDSoC environment and it defines the hardware, software, and meta-data components that SDSoC applications build upon. An SDSoC platform defines a base hardware and software architecture along with an application context, including the processing system, external memory interfaces, custom input/output, and software runtime. The software runtime may include an operating system (possibly “bare metal”), boot loaders, drivers for platform peripherals and a root file system. Every project you create within the SDx environment targets a specific hardware platform and utilizes tools such as the sds++/sdscc (referred to as sds++) system compiler to customize the platform’s application-specific hardware accelerators and data motion networks.
+プラットフォームのコンセプトは SDSoC 環境には不可欠で、SDSoC アプリケーションをビルドするハードウェア、ソフトウェア、メタデータ コンポーネントを定義します。SDSoC プラットフォームでは、ベース ハードウェアおよびソフトウェア アーキテクチャおよびアプリケーション コンテキストが定義されます。これには、プロセッシング システム、外部メモリ インターフェイス、カスタム入力/出力、ソフトウェア ランタイムが含まれます。ソフトウェア ランタイムには、オペレーティング システム (ベアメタルの場合もあり)、ブートローダー、プラットフォーム ペリフェラルやルート ファイル システムのドライバーが含まれます。SDx 環境内で作成したプロジェクトは、すべて特定のハードウェア プラットフォームをターゲットとし、sds++/sdscc システム コンパイラ (sds++ と呼ぶ) などのツールを使用して、そのプラットフォームのアプリケーション特有のハードウェア アクセラレータおよびデータ モーション ネットワークをカスタマイズします。
 
   ![](./images/1stsvg.svg)
 
-In this tutorial, you will be guided through three labs that target a Zynq-7000 SoC-based ZC702 board operating in a standalone or bare metal software runtime environment. Step-by-step instructions are provided on how to build the hardware and software components that constitute a platform:
+このチュートリアルには、スタンドアロンまたはベアメタル ソフトウェア ランタイム環境で動作する Zynq-7000 SoC ベースの ZC702 をターゲットにした 3 つの演習が含まれます。プラットフォームを構成するハードウェアおよびソフトウェア コンポーネントをビルドする方法を手順ごとに説明します。
 
-1.  Create the hardware component known as the Device Support Archive (DSA) for a platform.
+1.  プラットフォームのデバイス サポート アーカイブ (DSA) と呼ばれるハードウェア コンポーネントを作成します。
 
-      1. The DSA contains the IP integrator hardware design and the design meta-data properties.
+      1. DSA には、IP インテグレーター ハードウェア デザインとデザインのメタデータ プロパティが含まれます。
 
-2.  Create the software components for a platform, including the following:
+2.  次を含むプラットフォームのソフトウェア コンポーネントを作成します。
 
-      1. First Stage Boot Loader (FSBL)
+      1. FSBL (First Stage Boot Loader)
 
-      1. “Hello World” executable software application (ELF)
+      1. Hello World 実行可能ソフトウェア アプリケーション (ELF)
 
-      1. Linker script that defines the heap, stack, and memory layout of an executable file (ELF)
+      1. ヒープ、スタック、および実行可能ファイル (ELF) のメモリ レイアウトを定義するリンカー スクリプト
 
-      1. Boot Image File (BIF) that defines the files and partitions of a boot image (BOOT.bin)
+      1. ブート イメージ (BOOT.bin) のファイルとパーティションを定義するブート イメージ ファイル (BIF)
 
-         1. Boot the SD card boot image to verify hardware functionality.
+         1. ハードウェア機能を検証する SD カード ブート イメージを起動します。
 
-3.  Create the SDSoC platform by assembling its hardware and software components
+3.  ハードウェアおよびソフトウェア コンポーネントをアセンブルして SDSoC プラットフォームを作成します。
 
-    1. Use the SDx IDE and its four (4) step process to create a custom platform.
+    1. SDx IDE とその 4 つの段階プロセスを使用してカスタム プラットフォームを作成します。
 
-    1. Create and run an SDSoC hardware accelerated application on the new platform.
+    1. SDSoC ハードウェア アクセラレーション アプリケーションを新しいプラットフォームに作成して実行します。
 
 
-Platforms supported by the Zynq family of devices combine an Arm-based processor system (PS) with high performance programmable logic (PL) to develop products that can be optimized by partitioning the system design across hardware and software. The figure below shows the high-level Zynq device features on which platforms are created.
+Zynq ファミリでサポートされるプラットフォームでは、ハードウェアおよびソフトウェアのシステム デザインをパーティションして最適化可能な製品を開発できるように、Arm ベースのプロセッサ システム (PS) と高パフォーマンスのユーザー プログラマブル ロジック (PL) がまとめられます。次の図は、プラットフォームが作成される Zynq デバイスの機能を示しています。
 
   ![](./images/2ndimage.svg)
 
-Zynq-based platforms can utilize the PS Arm processor cores, the integrated PS I/O (MIO) peripheral blocks, the PS external DDR memory controller, the multitude of configurable PS to PL and PL to PS interfaces, as well as logic blocks designed for the PL.
+Zynq ベースのプラットフォームでは、PS Arm プロセッサ コア、統合 PS I/O (MIO) ペリフェラル ブロック、PS 外部 DDR メモリ コントローラー、多数のコンフィギュレーション可能な PS to PL および PL to PS インターフェイスのほか、PL 用にデザインされたロジック ブロックも使用できます。
 
-For more information on the SDSoC environment, see the *SDSoC Environment User Guide* ([UG1027](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1027-sdsoc-user-guide.pdf)) and the *SDSoC Environment Platform Development Guide* ([UG1146](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1146-sdsoc-platform-development.pdf)).
+SDSoC 環境の詳細は、『SDSoC 環境ガイド』 ([UG1027](https://japan.xilinx.com/support/documentation/sw_manuals_j/xilinx2018_2/ug1027-sdsoc-user-guide.pdf)) および『SDSoC 環境プラットフォーム開発ガイド』 ([UG1146](https://japan.xilinx.com/support/documentation/sw_manuals_j/xilinx2018_2/ug1146-sdsoc-platform-development.pdf)) を参照してください。
 
 <details>
-<summary><big><strong>Hardware and Software Requirements</strong></big></summary>
+<summary><big><strong>ハードウェアおよびソフトウェア要件</strong></big></summary>
 
-This tutorial requires that you have the 2018.2 SDx tools installed. See [UG1294](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1294-sdsoc-rnil.pdf) for installation instructions, release notes, and licensing. All SDx environments include the Vivado Design Suite for programming the target devices and for developing custom hardware platforms. Although all the build steps can be accomplished without a target board, a ZC702 board is required for testing on hardware.
+このチュートリアルを実行するには、2018.2 SDx をインストールしておく必要があります。インストール方法、リリース ノート、およびライセンスに関する詳細は、『SDSoC 環境リリース ノート、インストール、およびライセンス』 ([UG1294](https://japan.xilinx.com/support/documentation/sw_manuals_j/xilinx2018_2/ug1294-sdsoc-rnil.pdf)) を参照してください。すべて SDx 環境に、ターゲット デバイスのプラグラムおよびカスタム ハードウェア プラットフォームの開発のために Vivado Design Suite が含まれます。ターゲット ボードがなくてもビルド手順はすべて終了できますが、ハードウェアでのテストには ZC702 が必要です。
 
-Following the instructions of this platform creation tutorial generates a ZC702 SDSoC platform for standalone target applications. For information on creating applications that run within a Linux operating system target environment, see the SDSoC Environment Platform Development Guide ([UG1146](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1146-sdsoc-platform-development.pdf)). Linux target applications must be built on a Linux host machine, whereas standalone target applications can be built on either a Windows or a Linux host machine.
+このプラットフォーム作成のチュートリアルの手順に従うと、スタンドアロン ターゲット アプリケーション用の ZC702 SDSoC プラットフォームが生成できます。Linux オペレーティング システム ターゲット環境内で実行できるアプリケーションの作成については、『SDSoC 環境プラットフォーム開発ガイド』 ([UG1146](https://japan.xilinx.com/support/documentation/sw_manuals_j/xilinx2018_2/ug1146-sdsoc-platform-development.pdf)) を参照してください。Linux ターゲット アプリケーションは Linux ホスト マシンでビルドする必要がありますが、スタンドアロン ターゲット アプリケーションは Windows または Linux ホスト マシンのいずれかでビルドできます。
 
-The following is a list of minimum software and hardware requirements for this tutorial:  
+次は、このチュートリアルに最低限必要なソフトウェアおよびハードウェア要件です。  
 
-  - [SDSoC 2018.2 Development Environment](https://www.xilinx.com/support/download.html)
+  - [SDSoC 2018.2 開発環境] (https://japan.xilinx.com/support/download.html)
 
-      - [UG1294](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug1294-sdsoc-rnil.pdf): Release Notes, Installation, and Licensing Guide
+      - [UG1294](https://japan.xilinx.com/support/documentation/sw_manuals_j/xilinx2018_2/ug1294-sdsoc-rnil.pdf): リリース ノート、インストール、およびライセンス ガイド
 
-  - [ZC702 Evaluation board](http://www.xilinx.com/zc702)
+  - [ZC702 環境ボード](https://japan.xilinx.com/zc702)
 
-      - FAT32 formatted SD card
+      - FAT32 フォーマットの SD カード
 
-      - USB Host Type-A to mini-USB cable for ZC702 USB to UART interface
+      - ZC702 USB to UART インターフェイス用 USB Host Type-A to mini-USB ケーブル
 
-      - Host PC USB to UART driver for Silicon Labs CP210x
+      - Silicon Labs CP210x の Host PC USB to UART ドライバー
 
-          - See [XTP310](https://www.xilinx.com/support/documentation/boards_and_kits/zc702_zvik/xtp310-zc702-quickstart.pdf), the ZC702 Quick Start Guide
+          - ZC702 のクイック スタート ガイドについては、[XTP310](https://japan.xilinx.com/support/documentation/boards_and_kits/zc702_zvik/xtp310-zc702-quickstart.pdf) を参照してください。
 
 </details>
 
-## Related information
- - <a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">Lab 1: Creating the DSA for a Zynq-7000 SoC Processor Design</a>
- - <a href="Lab2-Creating-Software-Components.md">Lab 2: Creating Software Components for the Platform</a>
- - <a href="Lab3-Creating-Custom-Platform-Using-the-SDx-IDE.md">Lab 3: Creating a Custom Platform Using the SDx IDE</a>
+## 関連情報
+ - <a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">演習 1: Zynq-7000 SoC プロセッサ デザイン用の DSA の作成</a>
+ - <a href="Lab2-Creating-Software-Components.md">演習 2: プラットフォーム用ソフトウェア コンポーネントの作成</a>
+ - <a href="Lab3-Creating-Custom-Platform-Using-the-SDx-IDE.md">演習 3: SDx IDE を使用したカスタム プラットフォームの作成</a>
 
 <hr/>
 <p align="center"><sup>Copyright&copy; 2018 Xilinx</sup></p>

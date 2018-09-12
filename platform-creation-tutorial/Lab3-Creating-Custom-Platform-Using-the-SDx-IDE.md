@@ -1,260 +1,260 @@
-<div style="page-break-after: always;"></div>
+﻿<div style="page-break-after: always;"></div>
 <div style="display: none;" media="print">
 <table style="width:100%">
   <tr>
 
-<th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>SDSoC Platform Creation Labs</h2>
+<th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>演習: SDSoC プラットフォームの作成</h2>
 </th>
 
 </tr>
   <tr>
-    <td width="17%" align="center"><a href="README.md">Introduction</a></td>
-    <td width="16%" align="center"><a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">Lab1: Creating the DSA for a Zynq-7000 SoC Processor Design</a></td>
-    <td width="17%" align="center"><a href="Lab2-Creating-Software-Components.md">Lab 2: Creating Software Components for the Platform</a></td>
-    <td width="17%" align="center">Lab 3: Creating a Custom Platform Using the SDx IDE</td>
+    <td width="17%" align="center"><a href="README.md">概要</a></td>
+    <td width="16%" align="center"><a href="Lab1-Creating-DSA-for-Zynq-7000-SoC-Processor-Design.md">演習1: Zynq-7000 SoC プロセッサ デザイン用の DSA の作成</a></td>
+    <td width="17%" align="center"><a href="Lab2-Creating-Software-Components.md">演習 2: プラットフォーム用ソフトウェア コンポーネントの作成</a></td>
+    <td width="17%" align="center">演習 3: SDx IDE を使用したカスタム プラットフォームの作成</td>
   </tr>
 </table>
 </div>
 
 
-## Lab 3: Creating a Custom Platform Using the SDx&trade; IDE
+## 演習 3: SDx IDE を使用したカスタム プラットフォームの作成
 
-<details><summary><big><strong>Step 1: Invoking the SDx IDE and Creating a Platform Project</strong></big></summary>
+<details><summary><big><strong>手順 1: SDx&trade; IDE の起動とプラットフォーム プロジェクトの作成</strong></big></summary>
 
-#### On a Linux host machine:
+#### Linux ホスト マシン
 
-At the shell prompt, type the following commands:
+シェル プロンプトに次のコマンドを入力します。
    
    1. `source <Xilinx_Install_Directory>/SDx/<Version>/settings64.{sh,csh}`
    2. `sdx`
     
-The first command sets the environment variables before launching the SDx IDE and the second command launches the SDx IDE. 
+1 つ目のコマンドで SDx IDE を起動する前に環境変数を設定し、2 つ目のコマンドで SDx IDE を起動しています。 
 
-#### On a Windows host machine:
+#### Windows ホスト マシン
 
-For a Windows host machine, use one of the following methods to launch Vivado&reg;
+Windows ホスト マシンの場合は、次のいずれかの方法で Vivado&reg; を起動します。
 
-   - Click the Vivado desktop icon.
+   - Vivado デスクトップ アイコンをクリックします。
 
-   - From the Start menu, select Xilinx Design Tools \> Vivado 2018.2 \> Vivado 2018.2.
+   - [スタート] メニューから [Xilinx Design Tools] → [Vivado 2018.2] → [Vivado 2018.2] をクリックします。
 
-   - From a Command prompt window, type the following commands:
+   - コマンド プロンプト ウィンドウで次のコマンドを入力します。
    
       1. `<Xilinx_Install_Directory>/SDx/<Version>/settings64.bat`
       2. `sdx`
     
-     The first command sets the environment variables prior to launching the SDx IDE and the second command launches the SDx IDE. 
+     1 つ目のコマンドで SDx IDE を起動する前に環境変数を設定し、2 つ目のコマンドで SDx IDE を起動しています。 
    
-   SDx IDE prompts you to set a directory location for an SDx workspace. The SDx workspace contains the platform and application projects developed by you.
+   SDx IDE ワークスペースのディレクトリを設定する画面になります。SDx ワークスペースには、プラットフォームと開発したアプリケーション プロジェクトが含まれます。
    
-1.  For this lab enter `/tmp/sdx_workspace` for the Workspace as shown in the following figure.
+1.  この演習では、次の図に示すようにワークスペースに `/tmp/sdx_workspace` と入力します。
 
     ![](./images/image46.png)
     
-    >:pushpin: **NOTE:**
-    >We are re-using the same SDx workspace as in Lab 2.
+    >:pushpin: **注記:**
+    >演習 2 と同じ SDx ワークスペースを再利用します。
 
-1.  Click **OK**.
+1.  [OK] をクリックします。
 
-1. In the SDx IDE Welcome screen, select **Create SDx Project**.
+1. SDx IDE の [Welcome] 画面で [Create SDx Project] をクリックします。
 
-   As an alternative, the SDx IDE menu selection **File \> New \> SDx Project** can be used.
+   または、SDx IDE メニュー から [File] → [New\] → [SDx Project] をクリックします。
 
-1. Select **Platform** on the Project Type dialog.
+1.  [Project Type] ページで [Platform] をオンにします。
 
    ![](./images/image70.png)
 
-   You will create an SDSoC&trade; platform and populate it with the hardware and software components created in the earlier labs.
+    SDSoC&trade; プラットフォームを作成し、前の演習で作成したハードウェアおよびソフトウェア コンポーネントを使用して生成します。
 
-1. Click **Next**.
+2. [Next] をクリックします。
 
-1.  On the Platform Specification dialog.
+3.  [Platform Specification] ページで次を指定します。
 
-    1. Click **Browse** to select **/tmp/sdx\_workspace/zynq7\_board.dsa** for the Hardware specification file.
+    1. [Browse] をクリックして [Hardware specification file] に **/tmp/sdx\_workspace/zynq7\_board.dsa** を指定します。
 
-    1. Leave the default to select Import software platform components.
+    1. デフォルトのまま [Import software platform components] をオンにしておきます。
 
-1. Click **Finish**.
+4. [Finish] をクリックします。
 
    ![](./images/image71.png)
 </details>
 
-<details><summary><big><strong>Step 2: Defining System Configuration</strong></big></summary>
+<details><summary><big><strong>手順 2: システム コンフィギュレーションの指定</strong></big></summary>
 
-The zynq7\_board project is created and can be accessed through the Project Explorer or Assistant windows. The Editor Area window shows the four steps that we will use to generate the zynq7\_board platform.
+zynq7\_board プロジェクトが作成されます。プロジェクトには [Project Explorer] ビューまたは [Assistant] ビューからアクセスできます。編集エリアには、zynq7\_board プラットフォームを生成するのに使用する 4 つの段階が示されます。
 
 ![](./images/image72.png)
 
-1.  Click **(1) Define System Configuration**.
+1.  [(1) Define System Configuration] をクリックします。
 
-    1.  Enter **standalone** in the Name text box.
+    1.  [Name] テキスト ボックスに「standalone」と入力します。
 
-    2.  Display Name will be auto-filled with same name.
+    2.  [Display Name] には、同じ名前が自動的に入力されます。
 
-    3.  Enter **standalone configuration for the zynq7\_board** in the Description text box.
+    3.  [Description] テキスト ボックスに **standalone configuration for the zynq7\_board** と入力します。
 
-    4.  For Boot Directory, click **Browse** to navigate to the **/tmp/sdx_workspace/boot** folder.
+    4.  [Boot Directory] で [Browse] ボタンをクリックして、**/tmp/sdx_workspace/boot** フォルダーを指定します。
 
-    5.  For Bif File, click **Browse** to navigate to the **/tmp/sdx_workspace/boot/platform.bif** file path.
+    5.  [Bif File] で [Browse] ボタンをクリックして、**/tmp/sdx_workspace/boot/platform.bif** ファイル パスを指定します。
 
         ![](./images/image73.png)
 
-    6.  Click **OK**.
+    6.  [OK] をクリックします。
 
         ![](./images/image74.png)
 
 </details>
 <details>
-<summary><big><strong>Step 3: Adding Processor Domain</strong></big></summary>
+<summary><big><strong>手順 3: プロセッサ ドメインの追加</strong></big></summary>
 
-1.  Click **(2) Add Processor Group/Domain**.
+1.  [(2) Add Processor Group/Domain] をクリックします。
 
-    1.  Enter **a9_standalone** in the Name text box.
+    1.  [Name] テキスト ボックスに **a9_standalone** と入力します。
 
-    2.  Display Name will be auto-filled with same name.
+    2.  [Display Name] には、同じ名前が自動的に入力されます。
 
-    3.  Select **standalone** from the OS dropdown list.
+    3.  \[OS] ドロップダウン リストから [standalone] を選択します。
 
-    4.  Select **ps7_cortexa9_0** from the Processor dropdown list.
+    4.  [プロセッサ] ドロップダウン リストから **ps7_cortexa9_0** を選択します。
 
-    5.  Select **C/C++** from the Supported Runtimes dropdown list.
+    5.  [Supported Runtime] ドロップダウン リストから **C/C++** を選択します。
 
-    6.  For Linker Script, click **Browse** to navigate to the **/tmp/sdx_workspace/boot/lscript.ld** file path.
+    6.  [Linker Script] で [Browse] ボタンをクリックして、**/tmp/sdx_workspace/boot/lscript.ld** ファイル パスを指定します。
 
         ![](./images/image75.png)
 
-    7.  Click **OK**.
+    7.  [OK] をクリックします。
 
         ![](./images/image76.png)
 </details>
 <details>
-<summary><big><strong>Step 4: Generating Platform</strong></big></summary>
+<summary><big><strong>手順 4: プラットフォームの生成</strong></big></summary>
 
-1.  Click **(3) Generate Platform**.
-    The following message is displayed.
+1.  [(3) Generate Platform] をクリックします。
+    次のメッセージが表示されます。
     ![](./images/image77.png)
 
-2.  Click **OK**.
+2.  [OK] をクリックします。
     ![](./images/image78.png)
 </details>
 
 <details>
-<summary><big><strong>Step 5: Adding Custom Platform to Repository</strong></big></summary>
+<summary><big><strong>手順 5: カスタム プラットフォームの IP リポジトリへの追加</strong></big></summary>
 
 
-1.  Click **(4) Add to Custom Repositories**.
+1.  [(4) Add to Custom Repositories] をクリックします。
 
-    This will add the newly created platform to the list of platform choices we can use to build SDSoC applications.
+    ここでは、新しく作成したプラットフォームを SDSoC アプリケーションのビルドに使用可能なプラットフォームの選択リストへ追加します。
 
       ![](./images/image79.png)
 
-2.  Project Explorer and Assistant windows show the new zynq7_board platform.
+2.  [Project Explorer] および [Assistant] ビューには、新しい zynq7_board プラットフォームが表示されます。
 
     ![](./images/image80.png)
 
 </details>
 <details>
-<summary><big><strong>Step 6: Creating an SDx Application Targeting the Custom Platform</strong></big></summary>
+<summary><big><strong>手順 6: カスタム プラットフォームをターゲットとする SDx アプリケーションの作成</strong></big></summary>
 
-1.  On the SDx IDE menu, select **File \> New \> SDx Project** to begin creating a new Application project.
+1.  SDx IDE メニュー 、から [File] → [New] → [SDx Project] をクリックして新しいアプリケーション プロジェクトの作成を開始します。
 
-1.  Select **Application** on the Project Type dialog.
+1.  [Project Type] ページで [Application] をオンにします。
 
-    You will now create an SDx application for the custom SDSoC platform we generated.
+    生成したカスタム SDSoC プラットフォームに対して SDx アプリケーションを作成します。
 
     ![](./images/image81.png)
 
-1.  Click **Next**.
+1.  [Next] をクリックします。
 
-1.  In the Create a New SDx Project dialog, type **sdx\_app1** as the Project name.
+1.  [Create a New SDx Project] ダイアログ ボックスでプロジェクトの名前に **sdx\_app1** と入力します。
 
-1.  Click **Next**.
+1.  [Next] をクリックします。
 
     ![](./images/image82.png)
 
-1.  In the Platform dialog, select **Platform**.
+1.  [Platform] ページで [Platform] をオンにします。
 
-1.  Click the **zynq7_board [custom]** platform name.
+1.  **zynq7_board [custom]** プラットフォーム名をクリックします。
 
     ![](./images/image83.png)
 
-1.  Accept the default settings in the System configuration dialog box.
+1.  \[System configuration] ページは、デフォルト設定のままにします。
 
-    - System configuration: **standalone**
-    - Runtime: **C/C++**
-    - Domain: **a9_standalone**
-    - CPU: ps7_cortexa9_0
-    - OS: standalone
-    - Output type: **Executable (elf)**
-    - Check **Allow hardware acceleration**
+    - \[System configuration]: **standalone**
+    - \[Runtime]: **C/C++**
+    - \[Domain]: **a9_standalone**
+    - \[CPU]: ps7_cortexa9_0
+    - \[OS]: standalone
+    - \[Output type]: **Executable (elf)**
+    - \[Allow hardware acceleration] をオン
 
-1. Click **Next**.
+1. [Next] をクリックします。
 
    ![](./images/image84.png)
 
-1.  On the Templates dialog, click the **SDx Examples** button to update available templates.
+1.  [Templates] ページで [SDx Examples] ボタンをクリックして使用可能なテンプレートをアップデートします。
 
     ![](./images/image85.png)
 
-1.  On the SDx Examples dialog, you can browse the available examples. Downloaded templates will be available as templates while creating a new project.
+1.  [SDx Examples] ページでは、使用可能な例を確認できます。ダウンロードされたテンプレートは、新規プロジェクトを作成する際にテンプレートとして使用できるようになります。
 
     ![](./images/image86.png)
 
-1.  Click **Download** to download the **SDSoC Examples** from a repository.
+1.  [Download] をクリックしてリポジトリから [SDSoC Examples] をダウンロードします。
 
     ![](./images/image87.png)
 
-1.  Click **OK**.
+1.  [OK] をクリックします。
 
     ![](./images/image88.png)
 
-1. Select **Array Partitioning** and Click **Finish**.
+1. [Array Partitioning] を選択して [Finish] をクリックします。
 
     ![](./images/image89.png)
 
-   The newly created SDSoC application `sdx_app1` is shown in the Project Explorer view and the Assistant view.
+   新しく作成した SDSoC アプリケーション `sdx_app1` が [Project Explorer] ビューおよび [Assistant] ビューに表示されます。
 
-   >:pushpin: **NOTE:**
-   >The Assistant view shows a hardware accelerated function named `matmul_partition_accel` which is part of the Array Partitioning example.
+   >:pushpin: **注記:**
+   >[Assistant] ビューには、[Array Partitioning] 例の一部である `matmul_partition_accel` という名前のハードウェア アクセラレーション関数が表示されます。
 
     ![](./images/image90.png)
 
-1. The Editor view show settings for `sdx_app1` in the Application Project Settings window.
+1. [Application Project Settings] ウィンドウには `sdx_app1` の設定が表示されます。
 
     ![](./images/image91.png)
 
-1. In the Assistant view, expand **sdx_app1 [SDSoC]**.
+1. [Assistant] ビューで **sdx_app1 [SDSoC]** を展開します
 
-1. Right-click **Debug [Hardware]** and select **Build**.
+1. [Debug[Hardware]] を右クリックして [Build] をクリックします。
 
    ![](./images/image92.png)
 
-1. Assistant view provides build results through links to the following:
+1. [Assistant] ビューには、次のリンクを使用したビルド結果が表示されます。
 
-   - Compilation log
+   - コンパイル ログ
 
-   - Data motion report for accelerator
+   - アクセラレータのデータ モーション レポート
 
-   - Generated SD card image contents
+   - 生成された SD カード イメージの内容
 
    ![](./images/image93.png)
 
-1. You can also scroll through the Console window to view the individual build steps which are captured in the **sds.log**.
+1. [Console] ビューをスクロールすると、**sds.log** に含まれる個別のビルド段階を確認することもできます。
 
     ![](./images/image94.png)
 
-1. In the Assistant view, right-click **SD Card Image** and select **Open > Open in File Browser** to open a view to the SD Card contents on the disk. The `sd_card` directory is located in the SDx workspace at `/tmp/sdx_workspace/sdx_app1/Debug/sd_card`.
+1. [Assistant] ビューで [SD Card Image] を右クリックし、[Open] → [Open in File Browser] をクリックして、ディスクの SD カードの内容を表示します。`sd_card` ディレクトリは `/tmp/sdx_workspace/sdx_app1/Debug/sd_card` の SDx ワークスペース内に含まれます。
 
-1. Copy SD card directory contents to the root directory of a FAT32 formatted SD card and boot a ZC702 board using this SD card to run and view the sdx\_app1 UART output on a terminal program.
+1. SD カードの内容を FAT32 フォーマットの SD カードにコピーして、この SD カードを使用して ZC702 ボードを起動して、ターミナル プログラムで sdx\_app1 UART 出力を確認します。
 
-1. You can use the same board setup and boot procedure as in the hello\_world example in Lab 2.
+1. 演習 2 の hello\_world と同じボード設定およびブート手順を使用できます。
 
    ![](./images/image97.png)
 </details>
 
-### Conclusion
+### まとめ
 
-In completing Lab 3, you have successfully created a custom SDSoC platform that targets the ZC702 board with a standalone software runtime environment. You have also built the SDSoC array partitioning example on top of the custom SDSoC platform (zynq7\_board). A ZC702 board was used to validate the array partitioning hardware accelerator by booting the board from an SD card and observing the application output messages.
+演習 3 では、スタンドアロン ソフトウェア ランタイム環境を使用して ZC702 をターゲットにしたカスタム SDSoC プラットフォームを作成しました。また、カスタム SDSoC プラットフォーム (zynq7\_board) 上に SDSoC の配列パーティションの例をビルドしました。SD カードからボードをブートしてアプリケーションの出力メッセージを確認することで、ZC702 ボードを使用してハードウェア アクセラレータの配列パーティションを検証しました。
 
 
 <hr/>

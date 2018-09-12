@@ -1,42 +1,42 @@
-<!-- <div style="page-break-after: always;"></div> -->
+﻿<!-- <div style="page-break-after: always;"></div> -->
 <!-- <div style="display: none;" media="print"> -->
 <table style="width:100%">
     <tr>
-        <th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>SDSoC Environment Tutorial: Migrate OpenCV to xfOpenCV</h2>
+        <th width="100%" colspan="6"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>SDSoC 環境チュートリアル: OpenCV の xfOpenCV への移行</h2>
         </th>
     </tr>
     <tr>
-    <td align="center"><a >Introduction</a></td>
-    <td align="center"><a href="lab-1-migrate-opencv-to-xfopencv.md">Lab 1: Migrate OpenCV to xfOpenCV</a></td>
-    <td align="center"><a href="lab2-build-sdsoc-acceleration-project.md">Lab 2: Build the SDSoC Acceleration Project</a></td>
+    <td align="center"><a >概要</a></td>
+    <td align="center"><a href="lab-1-migrate-opencv-to-xfopencv.md">演習 1: OpenCV の xfOpenCV への移行</a></td>
+    <td align="center"><a href="lab2-build-sdsoc-acceleration-project.md">演習 2: SDSoC アクセラレーション プロジェクトのビルド</a></td>
     </tr>
 </table>
 <!-- </div> -->
 
-# Introduction
+# 概要
 
-xfOpenCV is hardware-accelerated OpenCV functions optimized for Xilinx SoCs and FPGAs. The functions are written completely in C/C++ that is targeted for High-level Synthesis (HLS).  This lab is designed to be used with SDx 2018.2 and using the released ZCU102 reVISION Platform.
+xfOpenCV は、ザイリンクス SoC および FPGA 用に最適化されたハードウェア アクセラレーション済みの OpenCV 関数です。関数は、高位合成 (HLS) 用に完全に C/C++ で記述されています。  この演習では、SDx 2018.2 およびリリースされている ZCU102 reVISION プラットフォームを使用します。
 
-The major difference between OpenCV and xfOpenCV is that typical OpenCV is written for and run on CPUs (x86, Arm, etc), whereas xfOpenCV is written and optimized for running on Xilinx SoCs and FPGAs. By optimizing for SoCs and FPGAs the code is up to 40x faster than embedded GPUs and 100x faster than CPUs. Since all the code is written in C/C++ it is easier to customize to your own computer vision functions.
+OpenCV と xfOpenCV の主な違いは、典型的な OpenCV が CPU (x86、Arm など) での実行を目的に記述され、xfOpenCV がザイリンクス SoCs および FPGA での実行を目的に記述されて最適化されている点にあります。SoC および FPGA を最適化すると、コードはエンベデッド GPU よりも最大で 40 倍、CPU よりも 100 倍速く実行できます。すべてのコードが C/C++ で記述されるので、ユーザーのコンピューター ビジョン関数に合わせてカスタマイズしやすくなっています。
 
-**:pushpin: NOTE**
-**This tutorial assumes you are already familiar with OpenCV and the reVISION platform as described at [reVISION Getting Started Guide](https://github.com/Xilinx/Revision-Getting-Started-Guide/blob/master/software-tools-system-requirements.md). You may want to review this information before proceeding.**
+**:pushpin: 注記**
+**このチュートリアルは、[reVISION 入門ガイド](https://github.com/Xilinx/Revision-Getting-Started-Guide/tree/2018.2-ja) で説明される OpenCV および reVISION プラットフォームには既に精通していると想定して説明をします。先に進める前に、このガイドをご確認ください。**
 
-## Revision History
-This is the initial release of the tutorial.
+## 改定履歴
+これは、このチュートリアルの初版です。
 
-## Change Log
+## 変更履歴
 ### 2018.2
-Initial Release
+初版。
 
-## Support
-To obtain technical support for the tutorial design, go to the:
+## サポート
+チュートリアル デザインのテクニカル サポートについては、次を参照してください。
 
-* [Xilinx Community Forums](https://forums.xilinx.com/)  to ask questions or discuss technical details and issues. Please make sure to browse the existing topics first before filing a new topic. If you do need to file a new topic, make sure it is filed in the sub-forum that best describes the issue or question and that it refers to the tutorial specifically.
+* [ザイリンクス コミュニティ フォーラム](https://forums.xilinx.com/): テクニカルな詳細および問題に関する質問またはご意見を集めています。新しいトピックを上げる前に、既存の同様のトピックがないかどうかをご確認ください。新しいトピックを上げる必要がある場合は、その問題および質問に該当するサブフォーラムを選択し、チュートリアルの内容を具体的に示してください。
 
 <hr/>
 
-:arrow_forward:**Next Topic:**  [Lab 1 - Migrate OpenCV to xfOpenCV](lab-1-migrate-opencv-to-xfopencv.md)
+:arrow_forward:**次のトピック:**  [演習 1 - OpenCV の xfOpenCV への移行](lab-1-migrate-opencv-to-xfopencv.md)
 
 <hr/>
 <p align="center"><sup>Copyright&copy; 2018 Xilinx</sup></p>
